@@ -1,0 +1,76 @@
+
+pip install flask flask-sqlalchemy flask-marshmallow marshmallow-sqlalchemy pymysql -U flask-cors
+
+
+ 
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+
+app = Flask(__name__)
+
+CORS(app)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://paydot:ezpaesjuge@localhost/codoacodo"
+# Configura el seguimiento de modificaciones de SQLAlchemy a False para mejorar el rendimiento
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# Crea una instancia de la clase SQLAlchemy y la asigna al objeto db para interactuar con la base de datos
+db = SQLAlchemy(app)
+# Crea una instancia de la clase Marshmallow y la asigna al objeto ma para trabajar con serialización y deserialización de datos
+ma = Marshmallow(app)
+
+class Users(db.Model):  # Users hereda de db.Model
+   
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    lastname = db.Column(db.String(50))
+    password = db.Column(db.String(50))
+    email = db.Column(db.String(100))
+    token = db.Column(db.String(400))
+
+    def __init__(self, name, lastname, password, email,token):
+       
+        self.name = name
+        self.lastname = lastname
+        self.password = password
+        self.email = email
+        self.token=token
+
+    # Se pueden agregar más clases para definir otras tablas en la base de datos
+
+    
+
+
+with app.app_context():
+    db.create_all()  # Crea todas las tablas en la base de datos
+
+# Definición del esquema para la clase Users
+class UsersSchema(ma.Schema):
+   
+    class Meta:
+        fields = ("id", "name", "lastname", "email", "password","token")
+
+user_schema = UsersSchema()  # Objeto para serializar/deserializar un producto
+users_schema = UsersSchema(many=True)  # Objeto para serializar/deserializar múltiples productos
+
+@app.route('/')
+def hello():
+    return "Servidor de prueba para codoacodo"
+
+@app.route("/users", methods=["GET"])
+def get_Users():
+    """
+    Endpoint para obtener todos los users de la base de datos.
+
+    Retorna un JSON con todos los registros de la tabla de productos.
+    """
+    all_users = Users.query.all()  # Obtiene todos los registros de la tabla de productos
+    result = user_schema.dump(all_users)  # Serializa los registros en formato JSON
+    return jsonify(result)  # Retorna el JSON de todos los registros de la tabla
+
+
+# Programa Principal
+if __name__ == "__main__":
+    # Ejecuta el servidor Flask en el puerto 5000 en modo de depuración
+    app.run(debug=True, port=5000)
