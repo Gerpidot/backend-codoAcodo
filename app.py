@@ -1,18 +1,5 @@
-'''
-Este código importa diferentes módulos y clases necesarios para el desarrollo de una aplicación Flask.
-
-Flask: Es la clase principal de Flask, que se utiliza para crear instancias de la aplicación Flask.
-jsonify: Es una función que convierte los datos en formato JSON para ser enviados como respuesta desde la API.
-request: Es un objeto que representa la solicitud HTTP realizada por el cliente.
-CORS: Es una extensión de Flask que permite el acceso cruzado entre dominios (Cross-Origin Resource Sharing), lo cual es útil cuando se desarrollan aplicaciones web con frontend y backend separados.
-SQLAlchemy: Es una biblioteca de Python que proporciona una abstracción de alto nivel para interactuar con bases de datos relacionales.
-Marshmallow: Es una biblioteca de serialización/deserialización de objetos Python a/desde formatos como JSON.
-Al importar estos módulos y clases, estamos preparando nuestro entorno de desarrollo para utilizar las funcionalidades que ofrecen.
-
-'''
 # Importa las clases Flask, jsonify y request del módulo flask
-from flask import Flask, jsonify, request
-
+from flask import Flask, jsonify, request, redirect, url_for
 # Importa la clase CORS del módulo flask_cors
 from flask_cors import CORS
 # Importa la clase SQLAlchemy del módulo flask_sqlalchemy
@@ -20,13 +7,16 @@ from flask_sqlalchemy import SQLAlchemy
 # Importa la clase Marshmallow del módulo flask_marshmallow
 from flask_marshmallow import Marshmallow
 
-#Se importan las rutas
+# Se importan las rutas
 from API.routes import bp as routes_bp
-#Se crea la instancia de alquemy con la app con init_db y se trae db para usar con el context
-from API.models import init_db,db 
-#Se inicia y crea la inatancia de marshmalow 
-from API.schemas import init_ma
-
+# Se crea la instancia de alquemy con la app con init_db y se trae db para usar con el context
+from API.models import init_db, db
+# Se inicia y crea la inatancia de marshmalow
+from API.schemas import init_ma, ma
+# from swagger_gui.swagger_gui import init_api
+from flask_swagger_ui import get_swaggerui_blueprint
+from flask_restful import Resource, Api
+import json
 '''
 En este código, se está creando una instancia de la clase Flask y se está configurando para permitir el acceso cruzado entre dominios utilizando el módulo CORS.
 
@@ -55,34 +45,50 @@ ma = Marshmallow(app): Se crea un objeto ma de la clase Marshmallow, que se util
 # Configura la URI de la base de datos con el driver de MySQL, usuario, contraseña y nombre de la base de datos
 # URI de la BD == Driver de la BD://user:password@UrlBD/nombreBD
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:root@localhost/proyecto"
-#Datos de conecxion a la bas
-
+# Datos de conecxion a la db
+# Conecction para pythonanywhere
+#app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://Gerpidot:ezpaesjuge@Gerpidot.mysql.pythonanywhere-services.com/Gerpidot$default"
+# Conecction para localhost
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://paydot:ezpaesjuge@localhost/codoacodo"
 # Configura el seguimiento de modificaciones de SQLAlchemy a False para mejorar el rendimiento
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# Crea una instancia de la clase SQLAlchemy y la asigna al objeto db para interactuar con la base de datos
-
-# Crea una instancia de la clase Marshmallow y la asigna al objeto ma para trabajar con serialización y deserialización de datos
-
-
-#Se importan las rutas
+# La instancia de la clase SQLAlchemy secrea en models
+# Inicializa la instancia de SQLAlchemy
+init_db(app)
+# La instancia de la clase Marshmallow se crea en schemas
+# Inicia la instancia de Marshmallow con la app
+init_ma(app)
 # Registra el Blueprint de las rutas
 app.register_blueprint(routes_bp)
 
+# Crea  la instancia de API con la app, para swagger
 
-# Inicializa la instancia de SQLAlchemy
-init_db(app)
-#Inicia la instancia de Marshmallow con la app
-init_ma(app)
+api = Api(app)
+
+# Configure Swagger UI
+SWAGGER_URL = '/docs'
+API_URL = '/openapi.json'
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "CAC Test EndPoints"
+    }
+)
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
 
-    
+
+
+
+@app.route('/openapi.json')
+def swagger():
+    with open('openapi.json', 'r') as f:
+        return jsonify(json.load(f))
 
 
 with app.app_context():
     db.create_all()  # Crea todas las tablas en la base de datos
-
-#
 
 # Programa Principal
 if __name__ == "__main__":

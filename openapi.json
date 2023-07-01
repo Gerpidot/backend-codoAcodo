@@ -1,0 +1,183 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API CodoAcodo EndPoints",
+    "version": "0.2",
+    "title": "CodoACodo"
+  },
+  "paths": {
+    "tags":"sasadsa,",
+    "/users/": {
+      "put": {
+        "tags": ["Usuarios"],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "x-example": "12"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Model1"
+            },
+            "x-examples": {
+              "application/json": "{\n    \"name\":\"test\",\n    \"lastname\": \"test\",\n    \"email\":\"testtest@inidep.edu.ar\",\n    \"password\":\"tohardtodiscover\",\n    \"token\":\"test\"\n}"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Definition generated from Swagger Inspector"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["Usuarios"],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/Model3"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Usuarios"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Model0"
+            },
+            "x-examples": {
+              "application/json": "{\n    \"name\":\"test\",\n    \"lastname\": \"test\",\n    \"email\":\"testtest@inidep.edu.ar\",\n    \"password\":\"admin\",\n    \"token\":\"test\"\n}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/Model2"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Model0": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "Model1": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "Model2": {
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "Array": {
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "Model3": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Array"
+      }
+    }
+  }
+}
