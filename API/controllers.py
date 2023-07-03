@@ -1,7 +1,7 @@
 
 # En este archivo se declaran las funciones para las rutas de la api
 from API.models import Users, Post, db
-from API.schemas import user_schema, users_schema, post_schema
+from API.schemas import user_schema, users_schema, post_schema, posts_schema
 from flask import jsonify, request
 from utils.utils import validar_email
 
@@ -39,7 +39,7 @@ def post_User():
         # Que no exista un usuario con el mismo email
         # Busca en la tabla el email indicado
         usuario = Users.query.filter_by(email=email).first()
-        if usuario:  # Si es true es porque encontró un registro
+        if usuario:  # Si es true es ppostorque encontró un registro
             message = "Ya existe un usuario registrado con ese email"
             response = {"message": message}
             return response
@@ -95,7 +95,7 @@ def put_User(id):
         usuario.token = request.json["token"]
 
         db.session.commit()  # Guarda los cambios en la base de datos
-        # Retorna el JSON del producto actualizado
+        # Retorna el JSON del usuario actualizado
         return user_schema.jsonify(usuario)
 
     except Exception as ex:
@@ -164,7 +164,7 @@ def post_Post():
         # Validaciones
         # Que exista el usuario
         user = Users.query.get(userId)
-        print("UUUSERRR", user)
+
         if user is None:
             response = {"message": "No existe un usuario con ese id"}
             return response
@@ -186,3 +186,58 @@ def post_Post():
     except Exception as ex:
         print(ex)
         return "No se pudo crear el post"
+
+
+def delete_Post():
+    try:
+        post_id = request.json['post_id']
+        # Validations
+        # Si existe el post
+        post = Post.query.get(post_id)
+        if post is None:
+            response = {"message": "no existe el post que intenta eliminar"}
+            return response
+        # Si existe el post lo borramos
+        db.session.delete(post)
+        db.session.commit()
+        response = {"message": "El post se eliminó correctamente"}
+        return response
+    except Exception as ex:
+        print(ex)
+        response = {
+            'message': "No pudimos eliminar el post, intenta nuevamente mas tarde"}
+
+
+def put_Post(id):
+
+    try:
+        post = Post.query.get(id)
+        # Validaciones
+        # Que exista el post a editar
+        if post is None:
+            message = "No existe un post con ese id"
+            response = {"message": message}
+            return response
+        # Actualiza los atributos del usuario con los datos proporcionados en el JSON
+
+        post.title = request.json["title"]
+        post.content = request.json["content"]
+
+        db.session.commit()
+        return post_schema.jsonify(post)
+
+    except Exception as ex:
+        print(ex)
+        return "Algo falló al intentar actualizar el comentario"
+
+
+def get_Post():
+    try:
+        mensajes_all = Post.query.all()
+        result = posts_schema.dump(mensajes_all)
+        return posts_schema.jsonify(result)
+
+    except Exception as ex:
+        print(ex)
+        response = {"message": "No pudimos obtener los mensaje"}
+        return

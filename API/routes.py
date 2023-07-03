@@ -36,7 +36,24 @@ def updatePassword():
 def deleteUsers():
     return control.delete_User()
 
+# POOOST routes
+
 
 @bp.route('/posts', methods=['POST'])
 def postPost():
     return control.post_Post()
+
+
+@bp.route('/posts', methods=['DELETE'])
+def deletePost():
+    return control.delete_Post()
+
+
+@bp.route('/posts/<id>', methods=['PUT'])
+def putPost(id):
+    return control.put_Post(id)
+
+
+@bp.route('/posts', methods=['GET'])
+def getPost():
+    return control.get_Post()

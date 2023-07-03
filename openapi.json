@@ -1,76 +1,22 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "API CodoAcodo EndPoints",
-    "version": "0.2",
-    "title": "CodoACodo"
+    "description": "CodoaCodo \n\nGermán Pi Dote\nJhon Brown",
+    "version": "2.0",
+    "title": "Test Api EndPoints "
   },
   "paths": {
-    "tags":"sasadsa,",
-    "/users/": {
-      "put": {
-        "tags": ["Usuarios"],
-        "consumes": [
-          "application/json"
-        ],
+    "/users": {
+      "post": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "x-example": "12"
-          },
           {
             "in": "body",
             "name": "body",
             "required": false,
-            "schema": {
-              "$ref": "#/definitions/Model1"
-            },
-            "x-examples": {
-              "application/json": "{\n    \"name\":\"test\",\n    \"lastname\": \"test\",\n    \"email\":\"testtest@inidep.edu.ar\",\n    \"password\":\"tohardtodiscover\",\n    \"token\":\"test\"\n}"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "Definition generated from Swagger Inspector"
-          }
-        }
-      }
-    },
-    "/users": {
-      "get": {
-        "tags": ["Usuarios"],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Definition generated from Swagger Inspector",
             "schema": {
               "$ref": "#/definitions/Model3"
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": ["Usuarios"],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/Model0"
             },
             "x-examples": {
               "application/json": "{\n    \"name\":\"test\",\n    \"lastname\": \"test\",\n    \"email\":\"testtest@inidep.edu.ar\",\n    \"password\":\"admin\",\n    \"token\":\"test\"\n}"
@@ -81,29 +27,231 @@
           "200": {
             "description": "Definition generated from Swagger Inspector",
             "schema": {
-              "$ref": "#/definitions/Model2"
+              "$ref": "#/definitions/Model9"
             }
           }
-        }
+        },
+        "tags": ["Usuarios"]
+      },
+      "delete": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Model4"
+            },
+            "x-examples": {
+              "application/json": "{\n   \"user_id\":\"5\"\n}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/Model6"
+            }
+          }
+        },
+        "tags": ["Usuarios"]
+      },
+      "get": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/Array"
+            }
+          }
+        },
+        "tags": ["Usuarios"]
+      }
+    },
+    "/users/forgot": {
+      "post": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Model2"
+            },
+            "x-examples": {
+              "application/json": "{\"email\":\"gpidote@inidep91.edu\"}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/Model7"
+            }
+          }
+        },
+        "tags": ["Usuarios"]
+      }
+    },
+    "/users/{id}": {
+      "put": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Model1"
+            },
+            "x-examples": {
+              "application/json": "{\n    \"name\":\"test\",\n    \"lastname\": \"test\",\n    \"email\":\"testtest@adminr.com\",\n    \"password\":\"tohardtodiscover\",\n    \"token\":\"test\"\n}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/Model8"
+            }
+          }
+        },
+        "tags": ["Usuarios"]
+      }
+    },
+
+    "/posts": {
+      "post": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Model14"
+            },
+            "x-examples": {
+              "application/json": "{\n    \"title\":\"test\",\n    \"content\": \"test\",\n    \"user_id\":\"3\"}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/Model9"
+            }
+          }
+        },
+        "tags": ["Mensajes"]
+      },
+      "get": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/Model13_Array"
+            }
+          }
+        },
+        "tags": ["Mensajes"]
+      },
+      "delete": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Model5"
+            },
+            "x-examples": {
+              "application/json": "{\n   \"post_id\":\"16\"\n}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/Model11"
+            }
+          }
+        },
+        "tags": ["Mensajes"]
+      }
+    },
+    "/posts/{id}": {
+      "put": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Model0"
+            },
+            "x-examples": {
+              "application/json": "{\n   \"user_id\":\"3\",\n   \"title\":\"Nombre del usuario\",\n   \"content\":\"Comentario del usuario\"\n}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/Model12"
+            }
+          }
+        },
+        "tags": ["Mensajes"]
       }
     }
   },
   "definitions": {
     "Model0": {
       "properties": {
-        "name": {
+        "user_id": {
           "type": "string"
         },
-        "lastname": {
+        "title": {
           "type": "string"
         },
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "token": {
+        "content": {
           "type": "string"
         }
       }
@@ -128,6 +276,83 @@
       }
     },
     "Model2": {
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "Model3": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "Model4": {
+      "properties": {
+        "user_id": {
+          "type": "string"
+        }
+      }
+    },
+    "Model5": {
+      "properties": {
+        "post_id": {
+          "type": "string"
+        }
+      }
+    },
+    "Model6": {
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Model7": {
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Model8": {
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "Model9": {
       "properties": {
         "email": {
           "type": "string"
@@ -173,10 +398,62 @@
         }
       }
     },
-    "Model3": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Array"
+    "Model11": {
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Model12": {
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "title": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Model13_Array": {
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "title": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Model14": {
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        
+        "title": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int32"
+        }
       }
     }
   }
