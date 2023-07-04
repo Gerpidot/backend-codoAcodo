@@ -20,6 +20,9 @@ def getAllUsers():
 def postUser():
     return control.post_User()
 
+@bp.route('/users/login',methods=["POST"])
+def loginUser():
+    return control.login_User()
 
 @bp.route('/users/<id>', methods=["PUT"])
 def putUser(id):

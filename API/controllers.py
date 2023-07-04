@@ -1,4 +1,3 @@
-
 # En este archivo se declaran las funciones para las rutas de la api
 from API.models import Users, Post, db
 from API.schemas import user_schema, users_schema, post_schema, posts_schema
@@ -61,8 +60,9 @@ def post_User():
         db.session.add(new_user)
         db.session.commit()  # Guarda los cambios en la base de datos
 
+        response = {"message": "Usuario creado con éxito"}
         # Retorna el JSON del nuevo usuario creado
-        return user_schema.jsonify(new_user)
+        return response
     except Exception as ex:
         print(ex)
         return "Algo no salió como se esperaba (básico)"
@@ -101,6 +101,39 @@ def put_User(id):
     except Exception as ex:
         print(ex)
         return "Algo falló al intentar actualizar el usuario"
+
+
+def login_User():
+    try:
+        email = request.json["email"]
+        password = request.json["password"]
+        # Validaciones
+        # Que el email sea correcto
+        if validar_email(email) == False:
+            message = "El email es inválido"
+            response = {"message": message, "success": False}
+            return response
+
+        # Que SI exista un usuario con ese  email
+        # Busca en la tabla el email indicado
+        usuario = Users.query.filter_by(email=email).first()
+
+        if usuario is None:  # Si es false es porque No encontró un registro
+            message = "El email o la contraseña son incorrectos"
+            response = {"message": message, "success": False}
+            return response
+        # Contraseña incorrecta
+        if usuario.password != password:
+            message = "El email o la contraseña son incorrectos"
+            response = {"message": message, "success": False}
+            return response
+# Se encontró el usuario y la pass es correcta se envían credenciales tokens de sesion y demas
+        response = {
+            "message": 'Conexión exitosa', "success": True}
+        return response
+    except Exception as ex:
+        print(ex)
+        return "Algo falló al intentar iniciar sesión"
 
 
 def update_Password():

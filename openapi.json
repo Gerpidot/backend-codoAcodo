@@ -102,6 +102,34 @@
         "tags": ["Usuarios"]
       }
     },
+    "/users/login": {
+      "post": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/ModelLogin"
+            },
+            "x-examples": {
+              "application/json": "{\"email\":\"gpidote@inidep91.edu\"}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/ModelLogin2"
+            }
+          }
+        },
+        "tags": ["Usuarios"]
+      }
+    },
     "/users/{id}": {
       "put": {
         "consumes": ["application/json"],
@@ -446,10 +474,29 @@
         "content": {
           "type": "string"
         },
-        
+
         "title": {
           "type": "string"
         },
+        "user_id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ModelLogin": {
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "ModelLogin2": {
+      "properties": {
         "user_id": {
           "type": "integer",
           "format": "int32"
